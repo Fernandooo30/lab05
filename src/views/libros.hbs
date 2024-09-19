@@ -1,0 +1,67 @@
+<h2>Listado de Categorías</h2>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Libros</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each categorias}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.nombre}}</td>
+            <td>{{this.descripcion}}</td>
+            <td>
+                <!-- Listar libros de la categoría -->
+                <ul>
+                    {{#each ../libros}}
+                    {{#ifCond this.categoria_id ../this.id}}
+                    <li>{{this.titulo}} - {{this.autor}}
+                        <form action="/categorias/{{../this.id}}/libros/eliminar/{{this.id}}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </li>
+                    {{/ifCond}}
+                    {{/each}}
+                </ul>
+            </td>
+            <td>
+                <!-- Formulario para agregar un libro a esta categoría -->
+                <form action="/categorias/{{this.id}}/libros/agregar" method="POST">
+                    <div class="form-group">
+                        <label for="titulo">Título del libro:</label>
+                        <input type="text" name="titulo" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="autor">Autor:</label>
+                        <input type="text" name="autor" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Libro</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h3>Agregar Nueva Categoría</h3>
+<form action="/categorias/agregar" method="POST">
+    <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <input type="text" name="descripcion" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Agregar Categoría</button>
+</form>
+
+<!-- Bootstrap and jQuery scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script> <!-- Popper.js -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> <!-- Bootstrap JS -->
